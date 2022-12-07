@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import cvRouter from '../routes/cv.routes';
 import { dbConnection } from '../config/database.config';
 
 class Server {
@@ -36,7 +37,7 @@ class Server {
     }
 
     routes() {
-        // this.app.use(this.cvRoute,  '../routes/cv.routes');
+        this.app.use(this.cvRoute, cvRouter);
     }
 
     listen() {

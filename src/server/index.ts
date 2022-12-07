@@ -4,13 +4,13 @@ import { dbConnection } from '../config/database.config';
 
 class Server {
     
-    app: Application;
-    PORT: string | number
-    cvRoute: string;
+    private app: Application;
+    private PORT: string;
+    private cvRoute: string;
 
     constructor() {
         this.app = express();
-        this.PORT = process.env.PORT || 3000;
+        this.PORT = process.env.PORT || '3000';
         this.cvRoute = '/api/resumes';
 
         //DATABASE

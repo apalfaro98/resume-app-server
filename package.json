@@ -1,0 +1,11 @@
+{
+  "name": "resume_app_server",
+  "version": "1.0.0",
+  "description": "A node-express server for an resumes app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Angelica Perez",
+  "license": "ISC"
+}

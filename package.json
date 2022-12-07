@@ -4,6 +4,8 @@
   "description": "A node-express server for an resumes app",
   "main": "index.js",
   "scripts": {
+    "start": "tsc && node dist/index.js",
+    "dev": "tsc -w && nodemon dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Angelica Perez",

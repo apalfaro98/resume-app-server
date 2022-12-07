@@ -1,8 +1,13 @@
-import express from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import { dbConnection } from '../config/database.config';
 
 class Server {
+    
+    app: Application;
+    PORT: string | number
+    cvRoute: string;
+
     constructor() {
         this.app = express();
         this.PORT = process.env.PORT || 3000;
@@ -31,7 +36,7 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.cvRoute, from '../routes/cv.routes'));
+        // this.app.use(this.cvRoute,  '../routes/cv.routes');
     }
 
     listen() {
@@ -41,4 +46,4 @@ class Server {
     }
 }
 
-module.exports = Server;
+export default Server;

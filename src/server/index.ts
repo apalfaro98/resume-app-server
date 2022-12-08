@@ -1,6 +1,7 @@
 import express, { Application, Request } from 'express';
 import cors from 'cors';
 import cvRouter from '../routes/cv.routes';
+import userRouter from '../routes/user.routes';
 import { dbConnection } from '../config/database.config';
 import multer, { FileFilterCallback, StorageEngine } from 'multer';
 import path from 'path';
@@ -14,11 +15,13 @@ class Server {
     private PORT: string;
     private fileStorage: StorageEngine
     private cvRoute: string;
+    private userRoute: string;
 
     constructor() {
         this.app = express();
         this.PORT = process.env.PORT || '3000';
         this.cvRoute = '/api/resumes';
+        this.userRoute = '/api/users';
 
         //Store files
         this.fileStorage = multer.diskStorage({
@@ -82,6 +85,7 @@ class Server {
 
     routes() {
         this.app.use(this.cvRoute, cvRouter);
+        this.app.use(this.userRoute, userRouter);
     }
 
     listen() {

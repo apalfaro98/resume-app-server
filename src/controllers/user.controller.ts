@@ -21,6 +21,12 @@ const userController = {
             result: user
         });
     },
+    auth: async (req: Request, res: Response) => {
+        
+        return res.status(201).json({
+            auth: true
+        });
+    },
 };
 
 export default userController;

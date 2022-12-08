@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import Resume from '../models/cv.model';
 
 const cvController = {
+    getAll: async (req: Request, res: Response) => {
+        const resumes = await Resume.find().select({name: 1, abilities: 1, age: 1, imageUrl: 1});
+        return res.status(200).json(resumes);
+    },
     getDetails: async (req: Request, res: Response) => {
         const {id} = req.params;
         const resume = await Resume.findById(id);

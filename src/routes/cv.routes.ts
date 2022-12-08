@@ -10,6 +10,10 @@ router.post(
     cvController.create
 )
 .get(
+    '/',
+    cvController.getAll
+)
+.get(
     '/:id',
     [...cvValidators.getDetails, validateFields],
     cvController.getDetails

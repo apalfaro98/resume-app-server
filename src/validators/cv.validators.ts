@@ -46,6 +46,15 @@ const cvValidations = {
             'El correo electrónico del desarrollador debe tener un formato adecuado.'
         ).isEmail(),
     ],
+    getDetails: [
+        check('id', 'El id no es un id válido.').isMongoId(),
+        check('id').custom(async (id) => {
+            const resume = await Resume.findById(id);
+            if (!resume) {
+                throw Error('El currículo solicitado no existe.');
+            }
+        }),
+    ],
     update: [
         check('id', 'El id no es un id válido.').isMongoId(),
         check('id').custom(async (id) => {

@@ -9,6 +9,11 @@ router.post(
     [...cvValidators.create, validateFields],
     cvController.create
 )
+.get(
+    '/:id',
+    [...cvValidators.getDetails, validateFields],
+    cvController.getDetails
+)
 .put(
     '/:id', [...cvValidators.update, validateFields], cvController.update
 )

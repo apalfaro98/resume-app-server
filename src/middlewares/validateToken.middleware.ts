@@ -1,5 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+interface Verification {
+    id: string;
+    iat: number;
+    exp: number;
+}
+
+interface CustomRequest extends Request {
+    user: string
+}
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('Authorization');
@@ -15,7 +25,11 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        jwt.verify(token, process.env.JWT_SECRET_KEY || '');
+        const verification = jwt.verify(token, process.env.JWT_SECRET_KEY || '') as Verification;
+        (req as CustomRequest).user = verification.id;
+        
+        //TODO: mandar el id en el req, validar el usuario en validators y poner en el create, al final
+        //el manejo de errores
         next();
     } catch (error) {
         console.log(error);

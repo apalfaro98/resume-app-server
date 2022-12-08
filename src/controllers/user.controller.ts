@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import User from '../models/user.model';
 import bcryptjs from 'bcryptjs';
-// import jwt from 'jsonwebtoken';
 import generateJWT from "../helpers/generateJWT";
 
 const userController = {

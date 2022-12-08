@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import Resume from '../models/cv.model';
 
+interface CustomRequest extends Request {
+    user: string;
+}
+
 const cvController = {
     getAll: async (req: Request, res: Response) => {
         const {abilities} = req.query;
@@ -28,10 +32,25 @@ const cvController = {
         const resume = await Resume.findById(id);
         return res.status(200).json(resume);
     },
-    create: async (req: Request, res: Response) => {
+    create: async (req: CustomRequest, res: Response) => {
         const { name, abilities, dateOfBirth, age, email, ...body} = req.body;
+        const user = req.user;
         const phone = (body.phone) ? body.phone : undefined;
         const experiences = (body.experiences) ? body.experiences : undefined;
+        const exists = await Resume.findOne({user});
+        if(exists){
+            return res.status(400).json({
+                created: false,
+                errors: [
+                    {
+                        value: user,
+                        msg: 'El usuario ya tenía un currículo creado.',
+                        param: 'user',
+                        location: 'body'
+                    }
+                ]
+            });
+        }
         const image = req.file;
         let imageUrl;
         if(image){
@@ -47,7 +66,8 @@ const cvController = {
             email,
             phone,
             experiences,
-            imageUrl
+            imageUrl,
+            user
         })
         await resume.save();
         return res.status(201).json({

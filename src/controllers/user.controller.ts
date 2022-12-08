@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import User from '../models/user.model';
 import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
+import generateJWT from "../helpers/generateJWT";
 
 const userController = {
     create: async (req: Request, res: Response) => {
@@ -16,16 +17,43 @@ const userController = {
 
         await user.save();
 
+        const sendUser = {
+            _id: user._id,
+            email: user.email
+        }
+
         return res.status(201).json({
             created: true,
-            result: user
+            result: sendUser
         });
     },
     auth: async (req: Request, res: Response) => {
-        
+        const {email, password} = req.body;
+        const user = await User.findOne({email});
+
+        const validPassword = bcryptjs.compareSync(password, user?.password || '');
+        if(!validPassword){
+            return res.status(400).json({
+                auth: false,
+                errors: [
+                    {
+                        value: password,
+                        msg: 'La contraseña del usuario es incorrecta.',
+                        param: 'password',
+                        location: 'body'
+                    }
+                ]
+            });
+        }
+
+        const token = generateJWT(user!._id.toString());
+
+
         return res.status(201).json({
-            auth: true
+            auth: true,
+            token
         });
+        
     },
 };
 

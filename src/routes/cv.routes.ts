@@ -11,6 +11,11 @@ router.post(
 )
 .put(
     '/:id', [...cvValidators.update, validateFields], cvController.update
+)
+.delete(
+    '/:id',
+    [...cvValidators.delete, validateFields],
+    cvController.delete
 );
 
 export default router;

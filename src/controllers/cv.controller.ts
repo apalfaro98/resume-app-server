@@ -6,6 +6,13 @@ const cvController = {
         const { name, abilities, dateOfBirth, age, email, ...body} = req.body;
         const phone = (body.phone) ? body.phone : undefined;
         const experiences = (body.experiences) ? body.experiences : undefined;
+        const image = req.file;
+        let imageUrl;
+        if(image){
+            imageUrl = image.filename;
+        } else{
+            imageUrl = (body.imageUrl) ? body.imageUrl : undefined;
+        }
         const resume = new Resume({
             name,
             abilities,
@@ -13,7 +20,8 @@ const cvController = {
             age,
             email,
             phone,
-            experiences
+            experiences,
+            imageUrl
         })
         await resume.save();
         return res.status(201).json({

@@ -10,7 +10,7 @@ router.post(
     cvController.create
 )
 .put(
-    '/:id', cvController.update
+    '/:id', [...cvValidators.update, validateFields], cvController.update
 );
 
 export default router;

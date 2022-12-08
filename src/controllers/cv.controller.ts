@@ -30,8 +30,17 @@ const cvController = {
         });
     },
     update: async (req: Request, res: Response) => {
+        const {id} = req.params;
+        const {name, email, ...body} = req.body;
+        const image = req.file;
+        if(image){
+            body.imageUrl = image.filename;
+        }
+        await Resume.findByIdAndUpdate(id, body);
+        const resume = await Resume.findById(id);
         return res.status(200).json({
-            updated: true
+            updated: true,
+            result: resume
         });
     }
 };

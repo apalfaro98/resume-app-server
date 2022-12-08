@@ -29,6 +29,11 @@ const cvController = {
             result: resume
         });
     },
+    update: async (req: Request, res: Response) => {
+        return res.status(200).json({
+            updated: true
+        });
+    }
 };
 
 export default cvController;

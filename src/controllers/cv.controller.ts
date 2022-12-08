@@ -3,7 +3,20 @@ import Resume from '../models/cv.model';
 
 const cvController = {
     getAll: async (req: Request, res: Response) => {
-        const resumes = await Resume.find().select({name: 1, abilities: 1, age: 1, imageUrl: 1});
+        const {abilities} = req.query;
+        console.log(abilities);
+        let resumes;
+        if(abilities){
+            resumes = await Resume.find({
+                abilities: { $all: abilities }
+            }).select({
+                name: 1, abilities: 1, age: 1, imageUrl: 1
+            });
+        } else{
+            resumes = await Resume.find().select({
+                name: 1, abilities: 1, age: 1, imageUrl: 1
+            });
+        }
         return res.status(200).json(resumes);
     },
     getDetails: async (req: Request, res: Response) => {

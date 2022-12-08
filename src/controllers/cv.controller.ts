@@ -39,7 +39,7 @@ const cvController = {
         const experiences = (body.experiences) ? body.experiences : undefined;
         const exists = await Resume.findOne({user});
         if(exists){
-            return res.status(400).json({
+            return res.status(401).json({
                 created: false,
                 errors: [
                     {
@@ -75,9 +75,24 @@ const cvController = {
             result: resume
         });
     },
-    update: async (req: Request, res: Response) => {
+    update: async (req: CustomRequest, res: Response) => {
         const {id} = req.params;
         const {name, email, ...body} = req.body;
+        const user = req.user;
+        const userResume = await Resume.findOne({user});
+        if((userResume?._id)?.toString() !== id){
+            return res.status(401).json({
+                created: false,
+                errors: [
+                    {
+                        value: user,
+                        msg: 'No puede modificar un currículo perteneciente a otro usuario.',
+                        param: 'user',
+                        location: 'body'
+                    }
+                ]
+            });
+        }
         const image = req.file;
         if(image){
             body.imageUrl = image.filename;

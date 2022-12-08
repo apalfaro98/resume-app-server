@@ -4,16 +4,20 @@ import Resume from '../models/cv.model';
 const cvController = {
     getAll: async (req: Request, res: Response) => {
         const {abilities} = req.query;
-        console.log(abilities);
+        const minAge = req.query.minAge ? Number(req.query.minAge) : 10;
+        const maxAge = req.query.maxAge ? Number(req.query.maxAge) : 200;
         let resumes;
         if(abilities){
             resumes = await Resume.find({
-                abilities: { $all: abilities }
+                abilities: { $all: abilities },
+                age: { $gt: minAge, $lt: maxAge }
             }).select({
                 name: 1, abilities: 1, age: 1, imageUrl: 1
             });
         } else{
-            resumes = await Resume.find().select({
+            resumes = await Resume.find({
+                age: { $gt: minAge, $lt: maxAge }
+            }).select({
                 name: 1, abilities: 1, age: 1, imageUrl: 1
             });
         }

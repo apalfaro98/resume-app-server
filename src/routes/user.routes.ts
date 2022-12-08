@@ -5,6 +5,6 @@ import userValidators from '../validators/user.validator';
 import validateFields from '../middlewares/validateFields.middleware';
 
 router.post('/', [...userValidators.create, validateFields], userController.create)
-.post('/auth', userController.auth)
+.post('/auth', [...userValidators.auth, validateFields], userController.auth)
 
 export default router;

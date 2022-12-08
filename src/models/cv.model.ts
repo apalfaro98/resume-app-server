@@ -30,6 +30,11 @@ const resumeSchema = new Schema({
     imageUrl: {
         type: String,
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 export default model('Resume', resumeSchema);

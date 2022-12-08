@@ -15,7 +15,11 @@ const cvValidations = {
             .isEmpty(),
         check(
             'abilities',
-            'Las habilidades del desarrollador deben ser una cadena de texto.'
+            'Las habilidades del desarrollador debe ser un arreglo.'
+        ).isArray(),
+        check(
+            'abilities.*',
+            'Cada habilidad del desarrollador debe ser una cadena de texto.'
         ).isString(),
         check('dateOfBirth', 'La fecha de nacimiento del desarrollador es obligatoria.')
             .not()

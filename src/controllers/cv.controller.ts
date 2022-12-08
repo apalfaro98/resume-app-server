@@ -3,6 +3,7 @@ import Resume from '../models/cv.model';
 
 const cvController = {
     create: async (req: Request, res: Response) => {
+        const body = req.body;
         return res.status(201).json({
             created: true,
         });

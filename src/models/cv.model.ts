@@ -6,7 +6,7 @@ const resumeSchema = new Schema({
         required: true,
     },
     abilities: {
-        type: String,
+        type: [String],
         required: true,
     },
     dateOfBirth: {

@@ -1,5 +1,5 @@
 import { check } from 'express-validator';
-// import User from '../models/user.model';
+import User from '../models/user.model';
 
 const cvValidations = {
     create: [
@@ -10,6 +10,12 @@ const cvValidations = {
             'email',
             'El correo electrónico del usuario debe tener un formato adecuado.'
         ).isEmail(),
+        check('email').custom(async(email) => {
+            const emailExists = await User.findOne({ email });
+            if(emailExists){
+                throw Error('El correo electrónico entrado ya existe.');
+            }
+        }),
         check('password', 'La contraseña del usuario es obligatoria.')
             .not()
             .isEmpty(),

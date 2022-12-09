@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
 import Resume from '../models/cv.model';
 
-interface CustomRequest extends Request {
-    user: string;
-}
-
 const cvController = {
     getAll: async (req: Request, res: Response) => {
         try {
@@ -47,7 +43,7 @@ const cvController = {
             })
         }
     },
-    create: async (req: CustomRequest, res: Response) => {
+    create: async (req: Request, res: Response) => {
         try {
             const { name, abilities, dateOfBirth, age, email, ...body} = req.body;
             const user = req.user;
@@ -97,7 +93,7 @@ const cvController = {
             })
         }
     },
-    update: async (req: CustomRequest, res: Response) => {
+    update: async (req: Request, res: Response) => {
         try {
             const {id} = req.params;
             const {name, email, ...body} = req.body;
@@ -133,7 +129,7 @@ const cvController = {
             })
         }
     },
-    delete: async (req: CustomRequest, res: Response) => {
+    delete: async (req: Request, res: Response) => {
         try {
             const {id} = req.params;
             const user = req.user;

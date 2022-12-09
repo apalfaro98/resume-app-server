@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 interface Verification {
     id: string;
     iat: number;
     exp: number;
-}
-
-interface CustomRequest extends Request {
-    user: string
 }
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +22,7 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const verification = jwt.verify(token, process.env.JWT_SECRET_KEY || '') as Verification;
-        (req as CustomRequest).user = verification.id;
+        req.user = verification.id;
         next();
     } catch (error) {
         console.log(error);

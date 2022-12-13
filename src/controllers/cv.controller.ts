@@ -5,8 +5,8 @@ const cvController = {
     getAll: async (req: Request, res: Response) => {
         try {
             const {abilities} = req.query;
-            const minAge = req.query.minAge ? Number(req.query.minAge) : 10;
-            const maxAge = req.query.maxAge ? Number(req.query.maxAge) : 200;
+            const minAge = req.query.minAge && Number(req.query.minAge) > 10 ? Number(req.query.minAge) : 10;
+            const maxAge = req.query.maxAge && Number(req.query.maxAge) < 200 ? Number(req.query.maxAge) : 200;
             let resumes;
             if(abilities){
                 resumes = await Resume.find({

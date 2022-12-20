@@ -4,8 +4,9 @@
   "description": "A node-express server for an resumes app",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
-    "dev": "nodemon dist/index.js",
+    "start": "npm run copy && tsc && node dist/index.js",
+    "dev": "npm run copy && nodemon dist/index.js",
+    "copy": "copyfiles -u 1 src/**/*.html src/**/*.css src/**/*.ico src/public/**/*.png src/public/**/*.js dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Angelica Perez",
@@ -25,6 +26,7 @@
     "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/multer": "^1.4.7",
+    "copyfiles": "^2.4.1",
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.20",
     "typescript": "^4.9.4"
